@@ -122,6 +122,11 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+CSRF_TRUSTED_ORIGINS = [
+    "https://petroxtestbackend.onrender.com",
+]
+
+
 
 # Replace the following with your actual MongoDB Atlas connection string and database name.
 # mongoengine.connect(
