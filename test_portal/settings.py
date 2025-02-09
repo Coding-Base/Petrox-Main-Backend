@@ -214,8 +214,18 @@ TIME_ZONE = 'UTC'  # Or your preferred timezone
 #         },
 #     },
 # }
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels.layers.InMemoryChannelLayer",
+#     },
+# }
+
 CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer",
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": ["redis://red-cukj92tumphs73belin0:6379"],
+        },
     },
 }
+
