@@ -27,7 +27,12 @@ DEBUG = True
 
 # ALLOWED_HOSTS = []
 # ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "https://petroxtestbackend.onrender.com"]
+# ALLOWED_HOSTS = ["127.0.0.1", "localhost", "https://petroxtestbackend.onrender.com"]
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+    "petroxtestbackend.onrender.com",  # Add the Render hostname without protocol
+]
 
 # Application definition
 
