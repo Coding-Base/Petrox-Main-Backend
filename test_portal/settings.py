@@ -116,12 +116,36 @@ TEMPLATES = [
 #     },
 # }
 # import mongoengine
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'christopherdatabase',  # your database name
+        'USER': 'christopherdatabase_user',  # your database user
+        'PASSWORD': 'WH0m8wcpLdMr3oGrLC8AqDFsteJY7TGQ',  # your database password
+        'HOST': 'dpg-cua1ur23esus73ejlug0-a',  # using the internal hostname
+        'PORT': '5432',  # default PostgreSQL port
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'christopherdatabase',
+#         'USER': 'christopherdatabase_user',
+#         'PASSWORD': 'WH0m8wcpLdMr3oGrLC8AqDFsteJY7TGQ',
+#         'HOST': 'dpg-cua1ur23esus73ejlug0-a.oregon-postgres.render.com',  # External URL
+#         'PORT': '5432',
+#     }
+# }
+
+
+
+
 CSRF_TRUSTED_ORIGINS = [
     "https://petroxtestbackend.onrender.com",
 ]
