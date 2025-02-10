@@ -12,9 +12,10 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+from datetime import timedelta  # Added for token lifetime configuration
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -37,7 +38,6 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
-   
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'exams',
     'corsheaders',
-     'channels',
+    'channels',
 ]
 
 ASGI_APPLICATION = 'test_portal.asgi.application'
@@ -58,13 +58,18 @@ REST_FRAMEWORK = {
     ),
 }
 
+# Added SIMPLE_JWT configuration for token lifetimes
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),   # Access token expires after 1 hour
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),     # Refresh token expires after 7 days
+    # You can add other SIMPLE_JWT settings here if needed
+}
+
 CORS_ALLOW_ALL_ORIGINS = True
 
 MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
-   
     'corsheaders.middleware.CorsMiddleware',  # <-- this belongs here
-     # also here
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -94,16 +99,22 @@ TEMPLATES = [
 
 # WSGI_APPLICATION = 'test_portal.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
+# Example using PostgreSQL on Render:
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'christopherdatabase',  # your database name
+        'USER': 'christopherdatabase_user',  # your database user
+        'PASSWORD': 'WH0m8wcpLdMr3oGrLC8AqDFsteJY7TGQ',  # your database password
+        'HOST': 'dpg-cua1ur23esus73ejlug0-a',  # using the internal hostname (ensure this is correct)
+        'PORT': '5432',  # default PostgreSQL port
+    }
+}
+
+# Uncomment the following if you use djongo or another database configuration
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'djongo',
@@ -113,7 +124,7 @@ TEMPLATES = [
 #             'ssl': True,
 #             'ssl_cert_reqs': 'CERT_REQUIRED',
 #         },
-#     },
+#     }
 # }
 # import mongoengine
 # DATABASES = {
@@ -122,43 +133,17 @@ TEMPLATES = [
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'christopherdatabase',  # your database name
-        'USER': 'christopherdatabase_user',  # your database user
-        'PASSWORD': 'WH0m8wcpLdMr3oGrLC8AqDFsteJY7TGQ',  # your database password
-        'HOST': 'dpg-cua1ur23esus73ejlug0-a',  # using the internal hostname
-        'PORT': '5432',  # default PostgreSQL port
-    }
-}
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'christopherdatabase',
-#         'USER': 'christopherdatabase_user',
-#         'PASSWORD': 'WH0m8wcpLdMr3oGrLC8AqDFsteJY7TGQ',
-#         'HOST': 'dpg-cua1ur23esus73ejlug0-a.oregon-postgres.render.com',  # External URL
-#         'PORT': '5432',
-#     }
-# }
-
-
-
 
 CSRF_TRUSTED_ORIGINS = [
     "https://petroxtestbackend.onrender.com",
 ]
 
-
-
-# Replace the following with your actual MongoDB Atlas connection string and database name.
+# Uncomment the following MongoEngine connection if needed
 # mongoengine.connect(
 #     db='EMAIL_SENDER',
 #     host='mongodb+srv://osimigbubemigodsgift:mWtHyXvwEEqcGukR@cluster0.kmyaf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',
 #     ssl=True
 # )
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -177,7 +162,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
@@ -199,14 +183,12 @@ CHANNEL_LAYERS = {
     },
 }
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -228,5 +210,3 @@ TIME_ZONE = 'UTC'  # Or your preferred timezone
 #         "BACKEND": "channels.layers.InMemoryChannelLayer",
 #     },
 # }
-
-
