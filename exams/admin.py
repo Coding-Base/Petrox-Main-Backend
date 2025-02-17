@@ -14,7 +14,7 @@ class CourseAdmin(admin.ModelAdmin):
         if is_new:
             subject = f"New Course Available: {obj.name}"
             # Adjust the link below to your website's actual URL structure
-            course_link = f"https://petrox-test-frontend.onrender.com/{obj.id}"
+            course_link = f"https://petrox-test-frontend.onrender.com"
             message = (
                 f"Dear User,\n\n"
                 f"We are excited to announce that a new course has been uploaded: {obj.name}.\n"
