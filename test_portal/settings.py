@@ -58,12 +58,24 @@ REST_FRAMEWORK = {
     ),
 }
 
-# Added SIMPLE_JWT configuration for token lifetimes
+# SIMPLE_JWT configuration for token lifetimes
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),   # Access token expires after 1 hour
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),     # Refresh token expires after 7 days
-    # You can add other SIMPLE_JWT settings here if needed
 }
+
+# ---------------------------
+# Email Settings
+# ---------------------------
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 465
+EMAIL_USE_TLS = False       # Using SSL, so disable TLS
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = 'thecbsteam8@gmail.com'
+EMAIL_HOST_PASSWORD = 'rvis xrgl qztb ednr'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+# ---------------------------
 
 CORS_ALLOW_ALL_ORIGINS = True
 
@@ -102,92 +114,26 @@ TEMPLATES = [
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# Example using PostgreSQL on Render:
+# Example using PostgreSQL on Render with internal connection string:
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'christopherdatabase',  # your database name
         'USER': 'christopherdatabase_user',  # your database user
         'PASSWORD': 'WH0m8wcpLdMr3oGrLC8AqDFsteJY7TGQ',  # your database password
-        'HOST': 'dpg-cua1ur23esus73ejlug0-a',  # using the internal hostname (ensure this is correct)
+        'HOST': 'dpg-cua1ur23esus73ejlug0-a',  # internal hostname
         'PORT': '5432',  # default PostgreSQL port
     }
 }
-
-# Uncomment the following if you use djongo or another database configuration
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'djongo',
-#         'NAME': 'EMAIL_SENDER',
-#         'CLIENT': {
-#             'host': 'mongodb+srv://osimigbubemigodsgift:mWtHyXvwEEqcGukR@cluster0.kmyaf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',
-#             'ssl': True,
-#             'ssl_cert_reqs': 'CERT_REQUIRED',
-#         },
-#     }
-# }
-# import mongoengine
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 
 CSRF_TRUSTED_ORIGINS = [
     "https://petroxtestbackend.onrender.com",
 ]
 
-# Uncomment the following MongoEngine connection if needed
-# mongoengine.connect(
-#     db='EMAIL_SENDER',
-#     host='mongodb+srv://osimigbubemigodsgift:mWtHyXvwEEqcGukR@cluster0.kmyaf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',
-#     ssl=True
-# )
-
-# Password validation
-# https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
-
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
-
-# Internationalization
-# https://docs.djangoproject.com/en/5.1/topics/i18n/
-
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
-USE_I18N = True
-
-USE_TZ = True
-
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": ["redis://red-cukj92tumphs73belin0:6379"],
-        },
-    },
-}
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
-
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Default primary key field type
@@ -197,16 +143,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 USE_TZ = True
 TIME_ZONE = 'UTC'  # Or your preferred timezone
 
-# CHANNEL_LAYERS = {
-#     'default': {
-#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
-#         'CONFIG': {
-#             "hosts": [('127.0.0.1', 6379)],
-#         },
-#     },
-# }
-# CHANNEL_LAYERS = {
-#     "default": {
-#         "BACKEND": "channels.layers.InMemoryChannelLayer",
-#     },
-# }
+# CHANNEL_LAYERS configuration for Channels using Redis
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": ["redis://red-cukj92tumphs73belin0:6379"],
+        },
+    },
+}
+
