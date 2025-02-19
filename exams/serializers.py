@@ -1,4 +1,3 @@
-# exams/serializers.py
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import Course, Question, TestSession
@@ -17,6 +16,7 @@ class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
         fields = '__all__'
+
 class TestSessionSerializer(serializers.ModelSerializer):
     questions = QuestionSerializer(many=True)
     duration = serializers.IntegerField()
