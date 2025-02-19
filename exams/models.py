@@ -11,11 +11,15 @@ class Course(models.Model):
 class Question(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='questions')
     question_text = models.TextField()
-    option_a = models.CharField(max_length=255)
-    option_b = models.CharField(max_length=255)
-    option_c = models.CharField(max_length=255)
-    option_d = models.CharField(max_length=255)
-    correct_option = models.CharField(max_length=1, help_text="Enter A, B, C, or D")
+    option_a = models.CharField(max_length=255, blank=True)  # Made options optional
+    option_b = models.CharField(max_length=255, blank=True)
+    option_c = models.CharField(max_length=255, blank=True)
+    option_d = models.CharField(max_length=255, blank=True)
+    correct_option = models.CharField(max_length=1, help_text="Enter A, B, C, or D", blank=True)
+    # New field: for free-response correct answer
+    correct_answer_text = models.TextField(blank=True, null=True)
+    # New field: detailed explanation
+    explanation = models.TextField(blank=True, null=True)
     
     def __str__(self):
         return f"{self.course.name}: {self.question_text[:50]}"
@@ -37,3 +41,4 @@ class TestSession(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.course.name} - {self.start_time}"
+
