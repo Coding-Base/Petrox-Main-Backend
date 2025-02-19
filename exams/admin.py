@@ -13,8 +13,8 @@ class CourseAdmin(admin.ModelAdmin):
         super().save_model(request, obj, form, change)
         if is_new:
             subject = f"New Course Available: {obj.name}"
-            # Adjust the link below to your website's actual URL structure
-            course_link = f"https://petrox-test-frontend.onrender.com"
+            # Updated link without course ID
+            course_link = "https://petrox-test-frontend.onrender.com"
             message = (
                 f"Dear User,\n\n"
                 f"We are excited to announce that a new course has been uploaded: {obj.name}.\n"
@@ -22,12 +22,15 @@ class CourseAdmin(admin.ModelAdmin):
                 f"Best regards,\nThe Petrox Team"
             )
             from_email = settings.DEFAULT_FROM_EMAIL
-            # Retrieve email addresses of all users
             recipient_list = list(User.objects.values_list('email', flat=True))
             send_mail(subject, message, from_email, recipient_list, fail_silently=False)
 
 admin.site.register(Course, CourseAdmin)
-admin.site.register(Question)
+
+class QuestionAdmin(admin.ModelAdmin):
+    list_display = ('course', 'question_text', 'correct_option', 'correct_answer_text', 'explanation')
+    fields = ('course', 'question_text', 'option_a', 'option_b', 'option_c', 'option_d', 
+              'correct_option', 'correct_answer_text', 'explanation')
+
+admin.site.register(Question, QuestionAdmin)
 admin.site.register(TestSession)
-
-
