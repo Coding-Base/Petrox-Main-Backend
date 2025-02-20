@@ -8,12 +8,10 @@ class CourseAdmin(admin.ModelAdmin):
     list_display = ('name',)
 
     def save_model(self, request, obj, form, change):
-        # Determine if this is a new course
         is_new = not change
         super().save_model(request, obj, form, change)
         if is_new:
             subject = f"New Course Available: {obj.name}"
-            # Updated course_link without including a course ID.
             course_link = "https://petrox-test-frontend.onrender.com"
             message = (
                 f"Dear User,\n\n"
@@ -30,24 +28,29 @@ class QuestionAdmin(admin.ModelAdmin):
         'course',
         'question_text',
         'correct_option',
-        'get_correct_answer_text',  # Custom method for free-response correct answer
-        'get_explanation'           # Custom method for detailed explanation
+        'get_correct_answer_text',  # Custom getter method for free-response answer text
+        'get_explanation'           # Custom getter method for explanation
     )
-    # If your model doesn't yet include the new fields, keep them out of 'fields'.
-    # When you add the fields to your model and run migrations, you can add them here.
-    fields = ('course', 'question_text', 'option_a', 'option_b', 'option_c', 'option_d', 'correct_option')
+    fields = (
+        'course',
+        'question_text',
+        'option_a',
+        'option_b',
+        'option_c',
+        'option_d',
+        'correct_option',
+        'correct_answer_text',
+        'explanation'
+    )
 
     def get_correct_answer_text(self, obj):
-        # Return the value of correct_answer_text if it exists; otherwise an empty string.
-        return getattr(obj, 'correct_answer_text', '')
+        return obj.correct_answer_text or ""
     get_correct_answer_text.short_description = "Correct Answer Text"
 
     def get_explanation(self, obj):
-        # Return the value of explanation if it exists; otherwise an empty string.
-        return getattr(obj, 'explanation', '')
+        return obj.explanation or ""
     get_explanation.short_description = "Explanation"
 
 admin.site.register(Course, CourseAdmin)
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(TestSession)
-
