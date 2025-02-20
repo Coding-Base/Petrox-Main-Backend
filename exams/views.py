@@ -8,6 +8,7 @@ from .serializers import UserSerializer
 from django.contrib.auth.models import User
 from .models import Course, Question, TestSession
 from .serializers import CourseSerializer, QuestionSerializer, TestSessionSerializer
+from .serializers import StaffRegisterSerializer
 
 # Endpoint to list courses
 class CourseListAPIView(generics.ListAPIView):
@@ -115,3 +116,14 @@ class TestSessionDetailAPIView(generics.RetrieveAPIView):
     queryset = TestSession.objects.all()
     serializer_class = TestSessionSerializer
     lookup_field = 'id'
+
+class StaffRegisterView(APIView):
+    def post(self, request):
+        serializer = StaffRegisterSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(
+                {"message": "Staff account created successfully."},
+                status=status.HTTP_201_CREATED
+            )
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

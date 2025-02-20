@@ -1,13 +1,13 @@
-# exams/urls.py
 from django.urls import path
-from .views import TestSessionDetailAPIView
 from .views import (
+    TestSessionDetailAPIView,
     CourseListAPIView, 
     AddQuestionAPIView,
     StartTestAPIView, 
     SubmitTestAPIView, 
     TestHistoryAPIView,
-    RegisterUserAPIView  # import the registration view
+    RegisterUserAPIView,  # Registration view for normal users
+    StaffRegisterView     # New registration view for staff accounts
 )
 
 urlpatterns = [
@@ -16,6 +16,7 @@ urlpatterns = [
     path('start-test/', StartTestAPIView.as_view(), name='start-test'),
     path('submit-test/<int:session_id>/', SubmitTestAPIView.as_view(), name='submit-test'),
     path('history/', TestHistoryAPIView.as_view(), name='test-history'),
-    path('users/', RegisterUserAPIView.as_view(), name='register-user'),  # new registration endpoint
+    path('users/', RegisterUserAPIView.as_view(), name='register-user'),
+    path('staff/signup/', StaffRegisterView.as_view(), name='staff-signup'),
     path('test-session/<int:id>/', TestSessionDetailAPIView.as_view(), name='test-session-detail'),
 ]

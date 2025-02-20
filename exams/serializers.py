@@ -24,3 +24,21 @@ class TestSessionSerializer(serializers.ModelSerializer):
     class Meta:
         model = TestSession
         fields = ['id', 'user', 'course', 'questions', 'start_time', 'end_time', 'score', 'duration']
+
+# New Staff Registration Serializer
+class StaffRegisterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password']
+        extra_kwargs = {'password': {'write_only': True}}
+
+    def create(self, validated_data):
+        # Create a new user with is_staff=True
+        user = User.objects.create_user(
+            username=validated_data['username'],
+            email=validated_data['email'],
+            password=validated_data['password']
+        )
+        user.is_staff = True
+        user.save()
+        return user

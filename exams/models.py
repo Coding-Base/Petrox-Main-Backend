@@ -4,23 +4,30 @@ from django.utils import timezone
 
 class Course(models.Model):
     name = models.CharField(max_length=100, unique=True)
-    
+    approved = models.BooleanField(default=False)  # NEW: approval flag
+
     def __str__(self):
         return self.name
 
 class Question(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='questions')
     question_text = models.TextField()
-    option_a = models.CharField(max_length=255, blank=True)  # Made options optional
-    option_b = models.CharField(max_length=255, blank=True)
-    option_c = models.CharField(max_length=255, blank=True)
-    option_d = models.CharField(max_length=255, blank=True)
-    correct_option = models.CharField(max_length=1, help_text="Enter A, B, C, or D", blank=True)
-    # New field: for free-response correct answer
-    correct_answer_text = models.TextField(blank=True, null=True)
-    # New field: detailed explanation
-    explanation = models.TextField(blank=True, null=True)
-    
+    # option_a = models.CharField(max_length=255)
+    option_a = models.CharField(max_length=255, blank=True, null=True)
+    option_b = models.CharField(max_length=255, blank=True, null=True)
+
+    option_c = models.CharField(max_length=255, blank=True, null=True)
+
+    option_d = models.CharField(max_length=255, blank=True, null=True)
+
+    correct_option = models.CharField(
+        max_length=1,
+        help_text="Enter A, B, C, or D",
+        blank=True,  # Allow blank if using free-response later
+        null=True
+    )
+    approved = models.BooleanField(default=False)  # NEW: approval flag
+
     def __str__(self):
         return f"{self.course.name}: {self.question_text[:50]}"
 
@@ -34,11 +41,11 @@ class TestSession(models.Model):
     score = models.IntegerField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
-        """Ensure `end_time` is always timezone-aware."""
         if self.end_time and timezone.is_naive(self.end_time):
             self.end_time = timezone.make_aware(self.end_time)
         super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.user.username} - {self.course.name} - {self.start_time}"
+
 
