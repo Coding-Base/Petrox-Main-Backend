@@ -18,17 +18,17 @@ class StaffCourseAdmin(admin.ModelAdmin):
     fields = ('name',)  # Staff create a course by providing its name; approved is set automatically.
 
     def save_model(self, request, obj, form, change):
-        if not change:  # For new courses, force approved to False.
-            obj.approved = False
+        if not change:
+            obj.approved = False  # Force new courses to be unapproved.
         super().save_model(request, obj, form, change)
 
 class StaffQuestionAdmin(admin.ModelAdmin):
-    list_display = ('course', 'question_text', 'approved')
-    fields = ('course', 'question_text', 'option_a', 'option_b', 'option_c', 'option_d', 'correct_option')
+    list_display = ('course', 'question_text', 'correct_option', 'correct_answer_text', 'explanation')
+    fields = ('course', 'question_text', 'option_a', 'option_b', 'option_c', 'option_d', 'correct_option', 'correct_answer_text', 'explanation')
     
     def save_model(self, request, obj, form, change):
         if not change:
-            obj.approved = False
+            obj.approved = False  # Force new questions to be unapproved.
         super().save_model(request, obj, form, change)
 
 staff_admin_site.register(Course, StaffCourseAdmin)
