@@ -118,10 +118,10 @@ TEMPLATES = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'petroxdatebase2',  # your database name
-        'USER': 'petroxdatebase2_user',  # your database user
-        'PASSWORD': 'zLyo6YIHVF93l8pWq3129Vz7Lraozivk',  # your database password
-        'HOST': 'dpg-cusacpqj1k6c73f2u830-a.oregon-postgres.render.com',  # full external hostname
+        'NAME': 'test_portal_april_subscription',  # your database name
+        'USER': 'test_portal_april_subscription_user',  # your database user
+        'PASSWORD': 'uqUEsb82FEDPmHBGsc2J9mfig5sAB3e2',  # your database password
+        'HOST': 'dpg-cvfablhopnds73b87q2g-a.oregon-postgres.render.com',  # full external hostname
         'PORT': '5432',  # default PostgreSQL port
     }
 }
